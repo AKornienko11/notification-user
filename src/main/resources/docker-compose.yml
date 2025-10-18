@@ -23,7 +23,6 @@ services:
     depends_on:
       - kafka
 
-
   notification-service:
     build:
       context: ./notification-service
