@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
         // Уведомляем через Kafka
         messageProducer.sendMessage("user-topic", "Deleted: " + id);
         repository.deleteById(id);
+
     }
 
     public UserDTO convertToDTO(User user) {
