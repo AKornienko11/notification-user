@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public void createUser(UserDTO userDTO) {
         User user = convertFromDTO(userDTO);
         User savedUser = repository.save(user);
-        // Отправляем уведомление через Kafka
+
         messageProducer.sendMessage("user-topic", "Created: " + savedUser.getEmail());
     }
 
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         User deletedUser = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
 
-        // Уведомляем через Kafka
+
         messageProducer.sendMessage("user-topic", "Deleted: " + id);
         repository.deleteById(id);
     }
@@ -74,6 +74,5 @@ public class UserServiceImpl implements UserService {
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         return user;
-
     }
 }
