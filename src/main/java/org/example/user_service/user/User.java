@@ -1,4 +1,4 @@
-package org.example.user_service;
+package org.example.user_service.user;
 
 import jakarta.persistence.*;
 

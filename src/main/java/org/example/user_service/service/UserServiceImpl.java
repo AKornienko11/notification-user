@@ -1,5 +1,11 @@
-package org.example.user_service;
+package org.example.user_service.service;
 
+import org.example.user_service.emailmessage.EmailMessage;
+import org.example.user_service.emailmessage.OperationType;
+import org.example.user_service.messageproducer.MessageProducer;
+import org.example.user_service.repository.UserRepository;
+import org.example.user_service.user.User;
+import org.example.user_service.userdto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +18,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final MessageProducer messageProducer;
 
+
     @Autowired
     public UserServiceImpl(UserRepository repo, MessageProducer messageProducer) {
         this.repository = repo;
         this.messageProducer = messageProducer;
+
 
     }
 
@@ -32,20 +40,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(UserDTO userDTO) {
+    public UserDTO createUser(UserDTO userDTO) {
         User user = convertFromDTO(userDTO);
         User savedUser = repository.save(user);
-
-        messageProducer.sendMessage("user-topic", "Created: " + savedUser.getEmail());
+        messageProducer.sendMessage(OperationType.CREATED, user.getEmail());
+        return convertToDTO(savedUser);
     }
 
     @Override
-    public void updateUser(UserDTO userDTO) {
+    public UserDTO updateUser(UserDTO userDTO) {
         if (!repository.existsById(userDTO.getId())) {
-            throw new IllegalArgumentException("Пользователь не найден");
-        }
+            throw new IllegalArgumentException("Пользователь не найден");        }
         User userUpdate = convertFromDTO(userDTO);
         repository.save(userUpdate);
+        return convertToDTO(userUpdate);
 
     }
 
@@ -53,9 +61,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         User deletedUser = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
-
-
-        messageProducer.sendMessage("user-topic", "Deleted: " + id);
+        messageProducer.sendMessage(OperationType.DELETED, deletedUser.getEmail());
         repository.deleteById(id);
     }
 
