@@ -33,7 +33,6 @@ public class KafkaProducerConfig {
 
         return new DefaultKafkaProducerFactory<>(configProps);
     }
-
 }
 
 

@@ -9,4 +9,5 @@ class NotificationUserApplicationTest {
     @Test
     void contextLoads() {
     }
+
 }

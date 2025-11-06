@@ -5,6 +5,15 @@ public class UserDTO {
     private String name;
     private String email;
 
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
     public UserDTO() {
     }
 
@@ -31,5 +40,4 @@ public class UserDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }

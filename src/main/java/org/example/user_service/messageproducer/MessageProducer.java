@@ -36,6 +36,5 @@ public class MessageProducer {
         } catch (Exception e) {
             log.error("Не удалось отправить уведомление об операции: {}  email: {}", operationType, email, e);
         }
-
     }
 }

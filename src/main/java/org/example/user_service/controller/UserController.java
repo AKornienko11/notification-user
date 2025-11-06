@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService service;
 
@@ -23,29 +23,27 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(service.findById(id).orElseThrow());
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         service.createUser(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO ) {
-        userDTO.setId(id);
+    @PutMapping("/update")
+    public ResponseEntity<UserDTO> updateUser( @RequestBody UserDTO userDTO ) {
         service.updateUser(userDTO);
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         service.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
-
 }

@@ -58,11 +58,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public String deleteUser(Long id) {
         User deletedUser = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
         messageProducer.sendMessage(OperationType.DELETED, deletedUser.getEmail());
         repository.deleteById(id);
+        return "Пользователь удален";
     }
 
     public UserDTO convertToDTO(User user) {
@@ -81,4 +82,5 @@ public class UserServiceImpl implements UserService {
         user.setEmail(dto.getEmail());
         return user;
     }
+
 }

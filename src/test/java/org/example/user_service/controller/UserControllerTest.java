@@ -117,5 +117,4 @@ class UserControllerTest {
         Mockito.doNothing().when(userService).deleteUser(any());
     }
 
-
 }
