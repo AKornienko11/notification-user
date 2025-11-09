@@ -82,5 +82,4 @@ public class UserServiceImpl implements UserService {
         user.setEmail(dto.getEmail());
         return user;
     }
-
 }

@@ -26,7 +26,7 @@ public class UserController {
     @GetMapping("/get/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(service.findById(id).orElseThrow());
+                .body(service.findById(id).orElseThrow(()->  new RuntimeException("User do not exist")));
     }
 
     @PostMapping("/create")
@@ -46,4 +46,5 @@ public class UserController {
         service.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
 }
